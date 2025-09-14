@@ -193,7 +193,7 @@ const hasResults = computed(() => {
 
 <template>
     <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div class="max-w-7xl mx-auto">
+        <div class="container mx-auto">
             <!-- Layout responsivo: coluna única em mobile, duas colunas em desktop -->
             <div class="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-8">
                 
