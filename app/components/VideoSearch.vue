@@ -192,74 +192,103 @@ const hasResults = computed(() => {
 </script>
 
 <template>
-    <div class="w-full h-full flex items-start container mx-auto mt-16 gap-5">
-        <!-- Lado Esquerdo - Título e Formulário -->
-        <div class="w-full max-w-1/2">
-            <h1 class="text-5xl font-montserrat font-semibold text-slate-800">Video Time Saver</h1>
-            <p class="font-montserrat text-md text-slate-600 mt-2">
-                Ever wondered how much time you can save just by speeding up the videos you watch?
-                Here you can see exactly how much! Just enter the video URL and playback speed below!
-            </p>
+    <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Layout responsivo: coluna única em mobile, duas colunas em desktop -->
+            <div class="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-8">
+                
+                <!-- Seção Esquerda - Título e Formulário -->
+                <div class="w-full lg:w-1/2 order-1 lg:order-1">
+                    <!-- Título responsivo -->
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-semibold text-slate-800 leading-tight">
+                        Video Time Saver
+                    </h1>
+                    <p class="font-montserrat text-sm sm:text-base lg:text-md text-slate-600 mt-3 lg:mt-2 leading-relaxed">
+                        Ever wondered how much time you can save just by speeding up the videos you watch?
+                        Here you can see exactly how much! Just enter the video URL and playback speed below!
+                    </p>
 
-            <!-- Formulário -->
-            <div class="mt-8">
-                <h2 class="text-lg font-bold mb-4">YouTube Player Info</h2>
+                    <!-- Formulário -->
+                    <div class="mt-6 lg:mt-8">
+                        <h2 class="text-lg font-bold mb-4">YouTube Player Info</h2>
 
-                <div class="mb-4 flex items-center gap-5">
-                    <input v-model="videoUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." class="border px-3 py-2 w-full max-w-3/4 rounded focus:outline-none focus:ring-2 focus:ring-[#C4302B]" />
-                    <select v-model="playbackSpeed" class="border px-3 py-2 w-full rounded focus:outline-none focus:ring-2  max-w-fit  focus:ring-[#C4302B]">
-                        <option v-for="option in speedOptions" :key="option.value" :value="option.value">
-                            {{ option.label }}
-                        </option>
-                    </select>
-                </div>
-
-                <button @click="calculate" class="bg-[#C4302B] text-white px-4 py-2 rounded h-12 text-lg font-semibold w-full hover:bg-[#e6524c] transition-colors">
-                    Calculate
-                </button>
-
-                <!-- Resultados dos cálculos -->
-                <div v-if="hasResults" class="mt-6 p-4 bg-gray-50 rounded-lg border">
-                    <h3 class="text-lg font-semibold text-slate-800 mb-3">⏱️ Time Savings Results</h3>
-
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">Original Duration:</span>
-                            <span class="font-medium text-slate-800">{{ formatTime(duration) }}</span>
+                        <!-- Inputs responsivos -->
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+                            <!-- Input URL -->
+                            <div class="flex-1">
+                                <input 
+                                    v-model="videoUrl" 
+                                    type="text" 
+                                    placeholder="https://www.youtube.com/watch?v=..." 
+                                    class="border px-3 py-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-[#C4302B] text-sm sm:text-base"
+                                />
+                            </div>
+                            
+                            <!-- Select Speed -->
+                            <div class="">
+                                <select 
+                                    v-model="playbackSpeed" 
+                                    class="border px-3 py-2 w-full sm:w-auto rounded focus:outline-none focus:ring-2 focus:ring-[#C4302B] text-sm sm:text-base"
+                                >
+                                    <option v-for="option in speedOptions" :key="option.value" :value="option.value">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">Adjusted Duration:</span>
-                            <span class="font-medium text-blue-600">{{ formatTime(adjustedDuration) }}</span>
-                        </div>
-                        <div class="flex justify-between items-center border-t pt-3 mt-3">
-                            <span class="text-slate-600 font-medium">⚡ Time Saved:</span>
-                            <span class="font-bold text-green-600 text-lg">{{ formatTime(timeSaved) }}</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">Playback Speed:</span>
-                            <span class="font-medium text-slate-800">{{ playbackSpeed }}x</span>
+
+                        <!-- Botão Calculate -->
+                        <button 
+                            @click="calculate" 
+                            class="bg-[#C4302B] text-white px-4 py-3 rounded text-base lg:text-lg font-semibold w-full hover:bg-[#e6524c] transition-colors"
+                        >
+                            Calculate
+                        </button>
+
+                        <!-- Resultados dos cálculos -->
+                        <div v-if="hasResults" class="mt-6 p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="text-base lg:text-lg font-semibold text-slate-800 mb-3">⏱️ Time Savings Results</h3>
+
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">Original Duration:</span>
+                                    <span class="font-medium text-slate-800">{{ formatTime(duration) }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">Adjusted Duration:</span>
+                                    <span class="font-medium text-blue-600">{{ formatTime(adjustedDuration) }}</span>
+                                </div>
+                                <div class="flex justify-between items-center border-t pt-3 mt-3">
+                                    <span class="text-slate-600 font-medium">⚡ Time Saved:</span>
+                                    <span class="font-bold text-green-600 text-base lg:text-lg">{{ formatTime(timeSaved) }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">Playback Speed:</span>
+                                    <span class="font-medium text-slate-800">{{ playbackSpeed }}x</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-green-50 rounded border-l-4 border-green-400">
+                                <p class="text-sm text-green-700">
+                                    🎉 You'll save <strong>{{ formatTime(timeSaved) }}</strong> by watching at <strong>{{ playbackSpeed }}x</strong> speed!
+                                </p>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="mt-4 p-3 bg-green-50 rounded border-l-4 border-green-400">
-                        <p class="text-sm text-green-700">
-                            🎉 You'll save <strong>{{ formatTime(timeSaved) }}</strong> by watching at <strong>{{ playbackSpeed }}x</strong> speed!
-                        </p>
-                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Lado Direito - Player do YouTube -->
-        <div class="w-full max-w-1/2">
-            <div class="w-full aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                <div id="youtube-player" class="w-full h-full">
-                    <!-- Placeholder quando vídeo não está carregado -->
-                    <div v-if="!videoId" class="w-full h-full bg-gray-500 rounded-lg flex items-center justify-center">
-                        <div class="text-center text-white">
-                            <div class="text-6xl mb-4">📺</div>
-                            <p class="text-lg font-semibold">Video will appear here</p>
-                            <p class="text-sm opacity-75">Enter a YouTube URL and click Calculate</p>
+                <!-- Seção Direita - Player do YouTube -->
+                <div class="w-full lg:w-1/2 order-2 lg:order-2">
+                    <div class="w-full aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                        <div id="youtube-player" class="w-full h-full">
+                            <!-- Placeholder quando vídeo não está carregado -->
+                            <div v-if="!videoId" class="w-full h-full bg-gray-500 rounded-lg flex items-center justify-center">
+                                <div class="text-center text-white p-4">
+                                    <div class="text-4xl sm:text-5xl lg:text-6xl mb-4">📺</div>
+                                    <p class="text-base lg:text-lg font-semibold mb-2">Video will appear here</p>
+                                    <p class="text-sm opacity-75">Enter a YouTube URL and click Calculate</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
